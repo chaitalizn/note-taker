@@ -4,18 +4,21 @@
 const util = require("util");
 const fs = require("fs");
 
-const uuid = require("uuid/v1");
+const {v1: uuidv1 } = require("uuid");
 const readfileAsync = util.promisify(fs.readFile);
 const writefileAsync = util.promisify(fs.writeFile);
 
-class Store{
+class Notes{
+    constructor() {
+        this.idDum = uuinv1();
+    }
 
     read() {
         return readfileAsync("db/db.json", "utf8")
     }
 
     write(note) {
-        return writefileAsync("db/db.js", note, "utf8")
+        return writefileAsync("db/db.json", JSON.stringify(note))
         
     }
 
@@ -39,7 +42,7 @@ class Store{
     addNotes(note) {
         console.log("add notes");
         const {title, text} = note;
-        const newNote = {title, text, id: uuidv1()}
+        const newNote = {title, text, id: this.idDum}
         return this.getNotes()
             .then(notes => [...notes, newNote])
             .then(updateNotes => this.write(updateNotes))
@@ -54,3 +57,5 @@ class Store{
 
     }
 }
+
+module.exports = new Notes();
