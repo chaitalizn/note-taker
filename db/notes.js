@@ -50,7 +50,7 @@ class Notes{
     removeNotes(id) {
         console.log("remove notes");
         return this.getNotes()
-        .then(notes => notes.filter(note => note.id !== parseInt(id)))
+        .then(notes => notes.filter(note => note.id !== id))
         .then(updatedNotes => this.write(updatedNotes))
 
     }
